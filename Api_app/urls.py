@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import new1,new_details
+from .views import new1,new_details, article
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     path('api/',csrf_exempt(new1)),
     path('details/<int:pk>/',new_details),
+    path('class_api/',article.as_view())
    
 
   
