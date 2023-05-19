@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'Api_app',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
 
 ]
 
@@ -86,11 +87,21 @@ DATABASES = {
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ]
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    # "DEFAULT_PAGINATION_CLASS": "Api_app.pagination.CustomPageNumberPagination",
+    # "PAGE_SIZE": 10,
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '3/day',
+        'user': '5/day'
+    }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -135,9 +146,3 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-REST_FRAMEWORK = {
-    'FORM_METHOD_OVERRIDE': None,
-    'FORM_CONTENT_OVERRIDE': None,
-    'FORM_CONTENTTYPE_OVERRIDE': None
-}

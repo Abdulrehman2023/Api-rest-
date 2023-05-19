@@ -147,5 +147,28 @@ def new_details(request,pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+from rest_framework.viewsets import ModelViewSet
+from .pagination import CustomPageNumberPagination
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.throttling import UserRateThrottle , AnonRateThrottle
+# from Api_app import filters
+from rest_framework import filters
+class APiDefaultViewSet(ModelViewSet):
+    serializer_class = AddressSerial
+    http_method_names = ["get","put","delete"]
+    # pagination_class = CustomPageNumberPagination
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    # throttle_classes  = [AnonRateThrottle,UserRateThrottle]
+    # filter_backends = [filters.CustomOrderingFilter]
+    # ordering_fields = ['lastname', 'id']
 
+    # filter_backends = [filters.SearchFilter]
+    # search_fields = ['Fisrtname', 'id']
+
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['Firstname', 'id']
     
+    def get_queryset(self):
+        queryset = APi_default.objects.all()
+        return queryset

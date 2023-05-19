@@ -18,14 +18,23 @@ from django.urls import path, include
 from .views import new1,new_details, article, CustomAuthToken,registeruser
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken import views
+from Api_app  import views
+
+from rest_framework import routers
+app_name = "Api_app"
+router = routers.DefaultRouter()
+router.register(r"APiDefaultViewSet", views.APiDefaultViewSet, "APiDefaultViewSet")
+
+
 
 urlpatterns = [
     path('api/',csrf_exempt(new1)),
     path('details/<int:pk>/',new_details),
     path('class_api/',article.as_view()),
    path('api-token-auth/', CustomAuthToken.as_view()),
-   path('registeruser/', registeruser.as_view())
-
+   path('registeruser/', registeruser.as_view()),
+   path('modelview/', registeruser.as_view()),
+   path("", include(router.urls)),
    
    
 
